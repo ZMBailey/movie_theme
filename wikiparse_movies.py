@@ -132,8 +132,8 @@ class WikiParser():
                     list of page titles to be searched. 
                 
             Return:
-                bios: list
-                    list of dictionaries, each containing a plot summary for a movie'''
+                plots: list
+                    list of dictionaries, each containing a plot summary for a movie and the title'''
         
         
         plots = []
@@ -160,15 +160,32 @@ class WikiParser():
         print(" ")
         return plots
     
-    def get_plots_from_year(self,year):
+    def get_plots_from_year(self,year,start=0,skip=False):
+        '''accepts a year and returns all plot summaries from that year.
+            
+            Args:
+                year: int
+                    the year to be searched.
+                start: int (optional) 
+                    page of category to start search at.
+                skip: boolean (optional)
+                    If set to true, search will attempt to start from a later page.
+                
+            Return:
+                movies: list
+                    list of dictionaries, each containing a plot summary for a movie and the title'''
         
         cat = "Category:" + str(year) + " films"
         titles = self.get_category(cat)
+        
+        if skip:
+            for _ in range(start+1):
+                titles = self.continue_category(cat)
 
         movies = []
         old_movies = []
 
-        for _ in range(602):
+        for _ in range(start,602):
             print('page: ' + str(_) + ' parsing...', end=" ")
             new_movies = self.get_all_plots(titles)
             if new_movies == old_movies:
@@ -177,13 +194,21 @@ class WikiParser():
             if self.cmc != -1:
                 titles = self.continue_category(cat)
             old_movies = new_movies
-            if _ % 10 == 0:
-                bu = pd.DataFrame(movies)
-                bu.to_json('data/backup.json')
             
         return movies
     
     def get_years(self,start,end):
+        '''accepts a start year and end year and returns all plot summaries from that year range.
+            
+            Args:
+                start: int
+                    starting year.
+                end:
+                    ending year.
+                
+            Return:
+                movies: list
+                    list of dictionaries, each containing a plot summary for a movie and the title'''
         
         movies = []
         for year in range(start,end):
