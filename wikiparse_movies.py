@@ -1,6 +1,7 @@
 import string
 import wikipedia
 import requests
+import pandas as pd
 
 
 class WikiParser():
@@ -9,6 +10,8 @@ class WikiParser():
         self.S = requests.Session()
         self.pageerrors = []
         self.ambiguation = []
+        self.attribute = []
+        self.filter = self.setup_filter()
     
     def get_plot(self,raw_text):
         '''accepts a WikipediaPage object, and extracts the plot text(if there is any)
@@ -58,12 +61,12 @@ class WikiParser():
 
         R = self.S.get(url=URL, params=PARAMS)
         data = R.json()
-        titles =  [item['title'] for ind,item in enumerate(data['query']['categorymembers']) if ind>1]
+        ids =  [item['pageid'] for ind,item in enumerate(data['query']['categorymembers']) if ind>1]
         if 'continue' in data.keys():
             self.cmc = data['continue']['cmcontinue']
         else:
             self.cmc = -1
-        return titles
+        return ids
 
 
     def continue_category(self,cat):
@@ -93,12 +96,31 @@ class WikiParser():
 
         R = self.S.get(url=URL, params=PARAMS)
         data = R.json()
-        titles =  [item['title'] for ind,item in enumerate(data['query']['categorymembers']) if ind>1]
+        ids =  [item['pageid'] for ind,item in enumerate(data['query']['categorymembers']) if ind>1]
         if 'continue' in data.keys():
             self.cmc = data['continue']['cmcontinue']
         else:
             self.cmc = -1
+        return ids
+    
+    
+    def setup_filter(self):
+        p_titles = []
+        old_titles = []
+        
+        for year in range(1960,2011,10):
+            cat = "Category:" + str(year) + "s pornographic films"
+            titles = self.get_category(cat)
+
+            for _ in range(32):
+                p_titles += titles
+                if self.cmc != -1:
+                    titles = self.continue_category(cat)
+                if titles == old_titles:
+                    break
+                old_titles = titles
         return titles
+    
 
     def get_all_plots(self,pages):
         '''accepts a list of wikipedia page titles, and searchs for each one.
@@ -110,15 +132,19 @@ class WikiParser():
                     list of page titles to be searched. 
                 
             Return:
-                bios: list
-                    list of dictionaries, each containing a plot summary for a movie'''
+                plots: list
+                    list of dictionaries, each containing a plot summary for a movie and the title'''
         
         
         plots = []
 
         for i,page in enumerate(pages):
             try:
-                movie = wikipedia.page(page)
+                if page in self.filter:
+                    continue
+                movie = wikipedia.page(pageid=page)
+                if movie.title.startswith('List'):
+                    continue
                 plot = self.get_plot(movie)
                 if plot != -1:
                     plots.append({'title': movie.title, 'summary': plot})
@@ -126,21 +152,40 @@ class WikiParser():
                 self.ambiguation.append(page)
             except wikipedia.exceptions.PageError:
                 self.pageerrors.append(page)
+            except AttributeError:
+                self.attribute.append(page)
             if ((i+1) % 10 == 0):
                 print('.',end=" ")
 
         print(" ")
         return plots
     
-    def get_plots_from_year(self,year):
+    def get_plots_from_year(self,year,end=602,start=0,skip=False):
+        '''accepts a year and returns all plot summaries from that year.
+            
+            Args:
+                year: int
+                    the year to be searched.
+                start: int (optional) 
+                    page of category to start search at.
+                skip: boolean (optional)
+                    If set to true, search will attempt to start from a later page.
+                
+            Return:
+                movies: list
+                    list of dictionaries, each containing a plot summary for a movie and the title'''
         
         cat = "Category:" + str(year) + " films"
         titles = self.get_category(cat)
+        
+        if skip:
+            for _ in range(start+1):
+                titles = self.continue_category(cat)
 
         movies = []
         old_movies = []
 
-        for _ in range(32):
+        for _ in range(start,602):
             print('page: ' + str(_) + ' parsing...', end=" ")
             new_movies = self.get_all_plots(titles)
             if new_movies == old_movies:
@@ -153,6 +198,17 @@ class WikiParser():
         return movies
     
     def get_years(self,start,end):
+        '''accepts a start year and end year and returns all plot summaries from that year range.
+            
+            Args:
+                start: int
+                    starting year.
+                end:
+                    ending year.
+                
+            Return:
+                movies: list
+                    list of dictionaries, each containing a plot summary for a movie and the title'''
         
         movies = []
         for year in range(start,end):
