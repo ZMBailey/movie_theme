@@ -105,12 +105,12 @@ class WikiParser():
     
     
     def setup_filter(self):
-        for year in range(1960,2010,10):
+        p_titles = []
+        old_titles = []
+        
+        for year in range(1960,2011,10):
             cat = "Category:" + str(year) + "s pornographic films"
             titles = self.get_category(cat)
-
-            p_titles = []
-            old_titles = []
 
             for _ in range(32):
                 p_titles += titles
@@ -160,7 +160,7 @@ class WikiParser():
         print(" ")
         return plots
     
-    def get_plots_from_year(self,year,start=0,skip=False):
+    def get_plots_from_year(self,year,end=602,start=0,skip=False):
         '''accepts a year and returns all plot summaries from that year.
             
             Args:
