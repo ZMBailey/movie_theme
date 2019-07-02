@@ -23,6 +23,7 @@ def get_tag(idx,doc,st):
         print(idx)
         return st.tag(doc.split())
 
+    
 def tag_words(texts, st):
     '''Takes a list of documents and runs NER on each one. Then it creates
     a list of all the words that have been classified as names.
@@ -40,6 +41,7 @@ def tag_words(texts, st):
     names = [set([word for word,tag in doc if tag != 'O']) for doc in tags]
     return set.union(*names)
 
+
 def remove_sw(doc,stop_words):
     '''Takes a document and removes the stopwords from each one.
     
@@ -53,6 +55,7 @@ def remove_sw(doc,stop_words):
         Document with all the stopwords removed.
         '''
     return [word for word in simple_preprocess(str(doc)) if word not in stop_words]
+
 
 def remove_stopwords(texts,stop_words):
     '''Takes a list of documents and removes the stopwords from each one.
@@ -68,7 +71,8 @@ def remove_stopwords(texts,stop_words):
         '''
     return [remove_sw(doc,stop_words) for doc in texts]
 
-def process_doc(doc,id2word):
+
+def process_doc(doc,id2word,stop_words):
     '''Generates the processed form of a single document.
     
     Args:
@@ -76,15 +80,18 @@ def process_doc(doc,id2word):
             document to be processed
         id2word: gensim.corpora.dictionary.Dictionary
             dictionary used to process the document.
+        stop_words: list
+            List of stopwords to be removed
                 
     Return: list of tuples
         Processed version of the document.
         '''
-    words = remove_sw(doc)
+    words = remove_sw(doc,stop_words)
     bigram_mod = bigrams(words)
     bigram = bigram_mod[words]
     corpus = id2word.doc2bow(bigram)
     return corpus
+
 
 def bigrams(words, bi_min=15):
     '''Creates a Phraser for converting words into bigrams. 
@@ -102,6 +109,7 @@ def bigrams(words, bi_min=15):
     bigram = Phrases(words, min_count = bi_min)
     bigram_mod = Phraser(bigram)
     return bigram_mod
+
 
 def refactor_corpus(bigram,below=15,above=0.35):
     '''Re-generates corpus using custom filter parameters.
@@ -122,7 +130,8 @@ def refactor_corpus(bigram,below=15,above=0.35):
     corpus = [id2word.doc2bow(text) for text in bigram]
     return corpus, id2word
 
-def get_corpus(texts):
+
+def get_corpus(texts,stop_words):
     '''Generates a corpus of processed documents:
     Removes stopwords, generates bigrams, and creates a dictionary.
     The dictionary is then used to process the text.
@@ -130,6 +139,8 @@ def get_corpus(texts):
     Args:
         texts: string
             document to be processed
+        stop_words: list
+            List of stopwords to be removed
                 
     Return:
         corpus: list
@@ -141,7 +152,7 @@ def get_corpus(texts):
         bigram: list of documents broken into bigrams.
         '''
     
-    words = remove_stopwords(texts)
+    words = remove_stopwords(texts,stop_words)
     bigram_mod = bigrams(words)
     bigram = [bigram_mod[plot] for plot in words]
     id2word = gensim.corpora.Dictionary(bigram)
