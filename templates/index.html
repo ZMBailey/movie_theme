@@ -11,7 +11,7 @@
   <title>The Movie Theme-eter</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="css/bootstrap.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -63,6 +63,7 @@
           req.send(data)
 
       document["theme_button"].bind("click", get_prediction)
+      document["user_input"].bind("Enter", get_prediction)
     </script>
 
   <!-- Navigation -->

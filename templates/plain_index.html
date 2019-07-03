@@ -6,7 +6,7 @@
   </head>
   <body onload="brython(1)">
     <script type="text/python3">
-      from browser import document, ajax
+      from browser import document, ajax, window
       import json
       import warnings
 
@@ -31,8 +31,19 @@
 
       document["predict_button"].bind("click", get_prediction)
     </script>
-    <textarea id="user_input"></textarea>
-    <button id="predict_button">Predict!</button>
+    <script>
+        function press_enter(e) {
+                if (e.keyCode === 13) {
+                    var input = document.getElementById('user_input').innerHTML;
+                    get_prediction(input);
+                }
+    
+                return false;
+            };
+    
+        </script>
+    <input type="text" id="user_input"></input>
+    <button id="predict_button" type="button">Predict!</button>
     <div id="topic1"></div>
     <div id="topic2"></div>
     <div id="topic3"></div>
