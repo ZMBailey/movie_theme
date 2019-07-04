@@ -20,7 +20,7 @@ class Themeter():
         topics1 = ['Crime Drama','On the Run','Thriller involving Planes','Murder Mystery','Relationship Drama',
                'Heist','Jail','Highschool','Romance','Action',
                'Tough Decisions','Hospitals']
-        topics2 = ['On the Run','Drama','Performance','Medieval','Action','Romance','Psychological','Mystery']
+        topics2 = ['On the Run','Relationship Drama','Performance','Medieval','Action','Romance','Psychological','Mystery']
          
         keywords1 = [['tape', 'killed', 'cop', 'thugs', 'involved', 'arrest', 'dealer'],
                         ['tries', 'begins', 'runs', 'leave', 'attempts', 'turns', 'starts', 'causing'],
@@ -58,11 +58,17 @@ class Themeter():
     def get_topic(self,model,probs,p):
         idx, scores = zip(*probs)
         if p == 1:
-            s = max(scores)
+            i = scores.index(max(scores))
         else:
-            s = sorted(scores)[-2]
-        i = scores.index(s)
-        return probs[i] + (model['topics'][i],) + (model['keywords'][i],) 
+            i = scores.index(sorted(scores)[-2])
+                             
+        if scores[i] < 0.3:
+            topic = ("",)
+            keywords = ([""],)
+        else:
+            topic = (model['topics'][i],)
+            keywords = (model['keywords'][i],) 
+        return probs[i] + topic + keywords 
             
         
     def run_model(self,text,model_no):

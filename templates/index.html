@@ -34,7 +34,11 @@
       import warnings
 
       def topic_html(topic,keywords):
-          html = '<div class="card-header" style="font-size:16pt;">'
+          if topic == "":
+             img = ""
+          else: 
+             img = '<img src="/img/icons/' + topic.replace(" ","_") + '.png" style="height:36px; width:36px";>'
+          html = '<div class="card-header" style="font-size:16pt;"><div style="margin-right:10px;">' + img + '</div>'
           html += topic + '</div><div class="card-body">'
           html += '<p class="card-text">'
           for idx,word in enumerate(keywords):
