@@ -21,7 +21,7 @@ class Themeter():
             self.stopwords = pickle.load(f4) 
         topics1 = ['Action','Crime','Performance','On the Run','Relationship_Drama','Espionage','Suspense','Romance']
         topics2 = ['Fighting','Romance','Drama','On the Run','Psychological',
-               'Heist','Thriller involving Planes','Crime','Courtroom','Tough Decisions',
+               'Heist','Thriller','Crime','Courtroom','Tough Decisions',
                'Mystery','Action']
          
         keywords1 = [['ship', 'plane', 'pilot', 'flight', 
