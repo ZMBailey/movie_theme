@@ -2,6 +2,8 @@ from text_processing import (tag_words,remove_stopwords,
                              remove_sw,process_doc,
                             bigrams,refactor_corpus,get_corpus)
 from gensim.models import LdaMulticore
+from wikiparse_movies import WikiParser
+import wikipedia
 import pickle
 
 
@@ -54,7 +56,19 @@ class Themeter():
         self.model1 = {'model':model1, 'topics':topics1, 'keywords':keywords1}
         self.model2 = {'model':model2, 'topics':topics2, 'keywords':keywords2}
             
-            
+    def get_from_wikipedia(self,title):
+        wp = WikiParser()
+        try:
+            movie = wikipedia.page(title)
+            return wp.get_plot(movie),movie.title
+        except wikipedia.exceptions.DisambiguationError:
+            return -2,-2
+        except wikipedia.exceptions.PageError:
+            return -2,-2
+        except AttributeError:
+            return -2,-2
+        
+    
     def get_topic(self,model,probs,p):
         idx, scores = zip(*probs)
         if p == 1:
@@ -62,7 +76,7 @@ class Themeter():
         else:
             i = scores.index(sorted(scores)[-2])
                              
-        if scores[i] < 0.3:
+        if scores[i] < 0.15:
             topic = ("",)
             keywords = ([""],)
         else:
@@ -91,7 +105,16 @@ class Themeter():
             return tup2, tup1
         
         
-    def find_topics(self,text):
+    def find_topics(self,name):
+        title = name.title()
+        text,w_title = self.get_from_wikipedia(title)
+        if text == -2:
+            text,w_title = self.get_from_wikipedia(title + " (film)")
+            if text == -2:
+                return text,text,text
+        if text == -1:
+            return text,text,text
+        
         topic1_f,topic1_s = self.run_model(text,1)
         topic2_f,topic2_s = self.run_model(text,2)
         t1, t2 = self.get_max_tuple(topic1_f,topic2_f)
@@ -100,4 +123,4 @@ class Themeter():
         
         movie_topics = [t1[2],t2[2],t3[2],t4[2]]
         keywords = [t1[3],t2[3],t3[3],t4[3]]
-        return movie_topics, keywords
+        return movie_topics, keywords, w_title

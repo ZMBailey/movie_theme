@@ -23,8 +23,8 @@ def predict():
     """Return a prediction of P(spam)."""
     data = request.json
     theme = Themeter()
-    topics,keywords = theme.find_topics(data)
-    return jsonify({'topics':topics,'keywords':keywords})
+    topics,keywords,name = theme.find_topics(data['user_input'])
+    return jsonify({'topics':topics,'keywords':keywords,'title':name})
 #     prediction = model.predict_proba([data['user_input']])
 #     prediction_round = round(prediction[0][1], 2)
 #     return jsonify({'probability': prediction_round})
