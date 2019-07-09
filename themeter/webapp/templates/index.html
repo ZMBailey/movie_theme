@@ -134,7 +134,7 @@
         <div class="col-md-10 col-lg-8 mx-auto text-center" style='margin-bottom: 60px;'>
 
           <div class="form-inline d-flex">
-            <input type="text" id="user_input" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" style="border:0.1rem solid #000;" placeholder="Enter a plot..."></textarea>
+            <input type="text" id="user_input" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" style="border:0.1rem solid #000;" placeholder="Enter a movie title..."></textarea>
             <button id="theme_button" type="submit" class="btn btn-primary mx-auto">Submit</button>
           </div>
 
@@ -142,7 +142,13 @@
       </div>
 
       <div>
-          <div id='movie_title' class="row" style="display: flex; justify-content: center;">
+          <div class="row" style="display: flex; justify-content: center;">
+              <div class="card border-dark mb-3" style="max-width: 40rem;">
+                  <div class="card-header">Result:</div>
+                  <div class="card-body">
+                    <p id='movie_title' class="card-text" style="font-size=16pt;"></p>
+                  </div>
+                </div>
           </div>
       </div>
       <div id="error_block" class="row" style="display: flex; justify-content: center;"></div>

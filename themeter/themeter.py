@@ -19,7 +19,7 @@ class Themeter():
             self.id2 = pickle.load(f3) 
         with open('themeter/dev/jar/stopwords.pkl', 'rb') as f4:
             self.stopwords = pickle.load(f4) 
-        topics1 = ['Action','Crime','Performance','On the Run','Drama','Espionage','Mystery','Romance']
+        topics1 = ['Action','Crime','Performance','On the Run','Relationship_Drama','Espionage','Suspense','Romance']
         topics2 = ['Fighting','Romance','Drama','On the Run','Psychological',
                'Heist','Thriller involving Planes','Crime','Courtroom','Tough Decisions',
                'Mystery','Action']
