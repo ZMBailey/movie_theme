@@ -19,39 +19,51 @@ class Themeter():
             self.id2 = pickle.load(f3) 
         with open('themeter/dev/jar/stopwords.pkl', 'rb') as f4:
             self.stopwords = pickle.load(f4) 
-        topics1 = ['Crime Drama','On the Run','Thriller involving Planes','Murder Mystery','Relationship Drama',
-               'Heist','Jail','Highschool','Romance','Action',
-               'Tough Decisions','Hospitals']
-        topics2 = ['On the Run','Relationship Drama','Performance','Medieval','Action','Romance','Psychological','Mystery']
+        topics1 = ['Action','Crime','Performance','On the Run','Drama','Espionage','Mystery','Romance']
+        topics2 = ['Fighting','Romance','Drama','On the Run','Psychological',
+               'Heist','Thriller involving Planes','Crime','Courtroom','Tough Decisions',
+               'Mystery','Action']
          
-        keywords1 = [['tape', 'killed', 'cop', 'thugs', 'involved', 'arrest', 'dealer'],
-                        ['tries', 'begins', 'runs', 'leave', 'attempts', 'turns', 'starts', 'causing'],
-                        ['plane', 'flight', 'pilot', 'passengers', 'infected', 'aired', 'bombing', 'engine', 'airplane', 'climbing'],
-                        ['killed', 'reveals', 'discovers', 'murdered', 'died', 'claims', 'apartment', 'evidence', 'begins', 'investigate'],
-                        ['played', 'includes', 'concerns', 'received', 'romantic', 'shown'],
-                        ['plan', 'plans', 'scheme', 'fake', 'pay', 'minister', 'thief', 'hired', 'turns'],
-                        ['trial', 'sent', 'prisoners', 'execution', 'sentenced', 'taken', 'lawyer', 'guilty', 'sentence'],
-                        ['contract', 'script', 'paying', 'prom', 'championship', 'teams', 'composer', 'involves', 'debate', 'current'],
-                        ['relationship', 'become', 'begins', 'decides', 'would', 'married', 'career'],
-                        ['killed', 'ship', 'reveals', 'captured', 'attempt', 'bomb', 'plan'],
-                        ['leave', 'meets', 'decides', 'gives', 'agrees', 'tries', 'apartment', 'offers', 'reveals'],
-                        ['debut', 'shown', 'patients', 'called', 'narrator', 'appeared', 'available', 'patient']]    
-        keywords2 = [['tries', 'runs', 'begins', 'leave', 'starts', 'turns',
-                           'makes', 'attempts', 'gives', 'seen'],
-                        ['romantic', 'concerns', 'whose', 'sexual', 'played', 
-                         'relationship', 'experiences', 'struggles', 'leading', 'childhood'],
-                        ['shown', 'played', 'debut', 'includes', 'received',
-                         'final', 'september', 'december', 'created'],
-                        ['painting', 'must', 'wish', 'villagers', 'minister', 'servant', 
-                         'attraction', 'scheme', 'coat', 'spell'],
-                        ['ship', 'plane', 'pilot', 'flight', 'passengers', 'aliens', 
-                         'ships', 'launch', 'engine', 'surface'],
-                        ['meets', 'decides', 'relationship', 'would', 'become', 'agrees',
-                         'married', 'leave', 'begins', 'gives'],
-                        ['trial', 'patient', 'committed', 'evidence', 'patients', 'roles',
-                         'psychiatrist', 'precode', 'executed', 'innocent'],
-                        ['killed', 'reveals', 'named', 'discovers', 'attempts',
-                         'attempt', 'discover', 'attacked', 'manages', 'plan']]
+        keywords1 = [['ship', 'plane', 'pilot', 'flight', 
+                      'bomb', 'passengers', 'ships', 'engine'],
+                    ['trial', 'evidence', 'murdered', 'committed', 'patient',
+                         'guilty', 'patients', 'innocent', 'victim'],
+                    ['played', 'shown', 'includes', 'final', 'received',
+                         'focuses', 'called', 'romantic'],
+                    ['tries', 'begins', 'leave', 'runs', 
+                         'turns', 'starts', 'attempts'],
+                    ['debut', 'painting', 'wrote', 'unexpected',
+                         'published', 'millionaire', 'reputation'],
+                    ['decides', 'agrees', 'gives', 'leave', 
+                         'offers', 'reveals', 'plans', ]
+                    ['killed', 'named', 'attempt', 'reveals', 
+                         'discover', 'attacked', 'attempts', 'captured']
+                    ['relationship', 'begins', 'meets', 'married', 
+                         'career', 'couple', 'pregnant', 'boyfriend']]    
+        keywords2 = [['final', 'powerful', 
+                     'terrorists', 'teams', 'involves', 'championship', 'theaters'],
+                    ['relationship', 'meets', 'leave', 'begins', 'apartment', 
+                         'married', 'reveals', 'decides', 'discovers', 'visits'],
+                    ['shown', 'played', 'includes', 'debut', 'concerns', 
+                         'received', 'romantic'],
+                    ['tries', 'starts', 'runs', 'decides', 
+                         'gives', 'doesnt', 'leave', 'turns'],
+                    ['experiences', 'patient', 'patients', 
+                         'psychiatrist', 'visions', 'tape'],
+                    ['pay', 'hired', 'scheme', 'offers', 
+                         'gambling', 'player', 'plans'],
+                    ['killed', 'reveals', 'plane', 'flight',
+                         'pilot', 'evidence'],
+                    ['killed', 'named', 'plan', 'arrest', 'criminals', 
+                         'thugs', 'captured', 'plans'],
+                    ['trial', 'evidence', 'murdered', 'lawyer', 'accused', 
+                         'guilty', 'cop', 'victim'],
+                    ['become', 'decides', 'must', 
+                         'agrees', 'contract', 'named', 'wish', 'plans'],
+                    ['killed', 'attempts', 'tries', 'leave', 'begins', 
+                         'discovers', 'named', 'runs', 'turns', 'manages'],
+                    ['ship', 'bomb', 'helicopter', 'captured', 'others', 
+                         'attacked', 'scientist', 'ships']]
         
         self.model1 = {'model':model1, 'topics':topics1, 'keywords':keywords1}
         self.model2 = {'model':model2, 'topics':topics2, 'keywords':keywords2}
