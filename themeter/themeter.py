@@ -35,9 +35,9 @@ class Themeter():
                     ['debut', 'painting', 'wrote', 'unexpected',
                          'published', 'millionaire', 'reputation'],
                     ['decides', 'agrees', 'gives', 'leave', 
-                         'offers', 'reveals', 'plans', ]
+                         'offers', 'reveals', 'plans', ],
                     ['killed', 'named', 'attempt', 'reveals', 
-                         'discover', 'attacked', 'attempts', 'captured']
+                         'discover', 'attacked', 'attempts', 'captured'],
                     ['relationship', 'begins', 'meets', 'married', 
                          'career', 'couple', 'pregnant', 'boyfriend']]    
         keywords2 = [['final', 'powerful', 
