@@ -19,7 +19,7 @@ class Themeter():
             self.id2 = pickle.load(f3) 
         with open('themeter/dev/jar/stopwords.pkl', 'rb') as f4:
             self.stopwords = pickle.load(f4) 
-        topics1 = ['Action','Crime','Performance','On the Run','Relationship_Drama','Espionage','Suspense','Romance']
+        topics1 = ['Action','Crime','Performance','On the Run','Relationship Drama','Espionage','Suspense','Romance']
         topics2 = ['Fighting','Romance','Drama','On the Run','Psychological',
                'Heist','Thriller','Crime','Courtroom','Tough Decisions',
                'Mystery','Action']
@@ -69,6 +69,19 @@ class Themeter():
         self.model2 = {'model':model2, 'topics':topics2, 'keywords':keywords2}
             
     def get_from_wikipedia(self,title):
+        '''Queries the wikipedia api for a movie title, and then 
+            returns the plot of the movie.
+            
+            Args:
+                title: string
+                    movie title to be searched.
+                
+            Return:
+                string
+                    the text of the plot summary from wikipedia.
+                string
+                    the title of the movie.'''
+        
         wp = WikiParser()
         try:
             movie = wikipedia.page(title)
@@ -82,6 +95,19 @@ class Themeter():
         
     
     def get_topic(self,model,probs,p):
+        '''takes a list of probabilities and finds either the highest or second highest
+            probability, and looks up the corresponding topic and set of keywords. 
+            
+            Args:
+                model: dictionary
+                    a dictionary containing topics and keywords.
+                probs: list of tuples
+                    list of tuples containing the scores for each topic.
+                
+            Return:
+                tuple
+                    tuple with the score and the corresponding topic and set of keywords'''
+        
         idx, scores = zip(*probs)
         if p == 1:
             i = scores.index(max(scores))
@@ -98,6 +124,21 @@ class Themeter():
             
         
     def run_model(self,text,model_no):
+        '''processes the input text and runs it through a model to get the topic scores.
+            
+            Args:
+                text: string
+                    the input text to be processed.
+                model_no:
+                    the number of model to run on the text.
+                
+            Return:
+                first: tuple
+                    tuple with the score and the corresponding topic and set of keywords
+                    for the highest ranking topic.
+                scnd: tuple
+                    same as first, but for the second highest ranking topic.'''
+        
         if model_no == 1:
             model = self.model1
         else:
@@ -111,6 +152,20 @@ class Themeter():
     
     
     def get_max_tuple(self,tup1,tup2):
+        '''finds the numerical order of two tuples based on the score contained
+        at index 1.
+            
+            Args:
+                tup1: tuple
+                    the first tuple.
+                tup2:
+                    the second tuple.
+                
+            Return:
+                tuple
+                    tuple with higher score.
+                tuple
+                    tuple with lower score.'''
         if tup1[1] > tup2[1]:
             return tup1, tup2
         else:
@@ -118,6 +173,21 @@ class Themeter():
         
         
     def find_topics(self,name):
+        '''takes a title, searches wikipedia for the plot summary, and then runs the plot 
+            summary through both models, and returns the resulting topics. 
+            
+            Args:
+                text: string
+                    the title of a movie.
+                
+            Return:
+                movie_topics: list
+                    a list of the movie topics
+                keywords: list
+                    a list of lists of keywords, corresponding the topics.
+                w_title: string
+                    the title of the movie as it appears on wikipedia.'''
+        
         title = name.title()
         text,w_title = self.get_from_wikipedia(title)
         if text == -2:

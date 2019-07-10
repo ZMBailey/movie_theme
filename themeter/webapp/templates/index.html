@@ -69,7 +69,7 @@
                 print_error(data['topics'])
               else:
                 document["error_block"].html = ''
-                document["movie_title"].html = data['title']
+                document["movie_title"].html = 'Themes for: ' + data['title']
                 for i in range(4):
                   document["topic" + str(i+1)].html = topic_html(data['topics'][i],
                                                                 data['keywords'][i])
@@ -116,73 +116,93 @@
   <!-- Header -->
   <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
-      <div class="mx-auto text-center">
+      <div class="mx-auto text-center"  style="margin-top:30px">
         <h1 class="mx-auto my-0 text-uppercase">Movie Theme-eter</h1>
         <h2 class="text-white-50 mx-auto mt-2 mb-5">Find Movie Themes with no spoilers</h2>
-        <div class="text-white-50">Want to know what a movie is about, but don't want to spoil the plot?</div>
-        <a href="#signup" class="btn btn-primary js-scroll-trigger">Theme it!</a>
+        <div class="text-white-50" style="margin-bottom: 10px;">Want to know what a movie is about, but don't want to spoil the plot?</br>
+        Enter a movie title and get the major themes of the movie without knowing the actual plot.</div>
+        <section id="signup" class="signup-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-10 col-lg-8 mx-auto text-center" style='margin-bottom: 60px;'>
+      
+                <div class="form-inline d-flex">
+                  <input type="text" id="user_input" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" style="border:0.1rem solid #000;" placeholder="Enter a movie title..."></textarea>
+                  <button id="theme_button" type="submit" class="btn btn-primary mx-auto">Theme It</button>
+                </div>
+      
+              </div>
+            </div>
+      
+            <div>
+                <div class="row" style="display: flex; justify-content: center;">
+                    <div class="card border-dark mb-3" style="width: 60%;">
+                        <div class="card-header"  style="font-size:14pt;">
+                          <span id='movie_title' class="card-text"></span>
+                        </div>
+                      </div>
+                </div>
+            </div>
+            <div id="error_block" class="row" style="display: flex; justify-content: center;"></div>
+            
+            </div>
+      
+            <div class="row" style="display: flex; justify-content: center;">
+                <div class="col-lg-4">
+                  <div class="bs-component">
+                      <div id="topic1" class="card border-secondary mb-3" style="max-width: 30rem;">
+                          
+                      </div>
+                      <div id="topic3" class="card border-secondary mb-3" style="max-width: 30rem;">
+                          
+                      </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="bs-component">
+                        <div id="topic2" class="card border-secondary mb-3" style="max-width: 30rem;">
+                            
+                        </div>
+                        <div id="topic4" class="card border-secondary mb-3" style="max-width: 30rem;">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </header>
 
-
-
-  <!-- Input Section -->
-  <section id="signup" class="signup-section">
+  <!-- Footer -->
+  <footer class="bg-black small text-center text-white-50" style="padding-top:20px;">
     <div class="container">
       <div class="row">
-        <div class="col-md-10 col-lg-8 mx-auto text-center" style='margin-bottom: 60px;'>
-
-          <div class="form-inline d-flex">
-            <input type="text" id="user_input" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" style="border:0.1rem solid #000;" placeholder="Enter a movie title..."></textarea>
-            <button id="theme_button" type="submit" class="btn btn-primary mx-auto">Submit</button>
-          </div>
-
+        <div class="col-lg-4">
+          Alexander Bailey<br />
+          zbailey656 &commat; gmail.com 
         </div>
-      </div>
-
-      <div>
-          <div class="row" style="display: flex; justify-content: center;">
-              <div class="card border-dark mb-3" style="width: 60%;">
-                  <div class="card-header"  style="font-size:14pt;">Found:
-                    <span id='movie_title' class="card-text"></span>
-                  </div>
-                </div>
-          </div>
-      </div>
-      <div id="error_block" class="row" style="display: flex; justify-content: center;"></div>
-      
-      </div>
-
-      <div class="row" style="display: flex; justify-content: center;">
-          <div class="col-lg-4">
-            <div class="bs-component">
-                <div id="topic1" class="card border-secondary mb-3" style="max-width: 20rem;">
-                    
-                </div>
-                <div id="topic3" class="card border-secondary mb-3" style="max-width: 20rem;">
-                    
-                </div>
+        <div class="col-lg-4">
+            <div style="margin-right:10px; display:inline-block;">
+              <a href="http://github.com/zmbailey">
+                <img src="img/GitHub-Mark-Light-32px.png" />
+              </a>
             </div>
-          </div>
-          <div class="col-lg-4">
-              <div class="bs-component">
-                  <div id="topic2" class="card border-secondary mb-3" style="max-width: 20rem;">
-                      
-                  </div>
-                  <div id="topic4" class="card border-secondary mb-3" style="max-width: 20rem;">
-                      
-                  </div>
+            <div style="margin-right:10px; display:inline-block;">
+              <a href="http://github.com/zmbailey">github.com/zmbailey</a>
+            </div>
+            <br />
+            <div style="margin-right:10px; display:inline-block;">
+                <a href="http://www.linkedin.com/in/alexander-bailey/">
+                  <img src="img/Li-In-Bug.png" style="height:32px;"/>
+                </a>
               </div>
+              <div style="margin-right:10px; display:inline-block;">
+                <a href="http://www.linkedin.com/in/alexander-bailey/">linkedin.com/in/alexander-bailey/</a>
             </div>
         </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-black small text-center text-white-50">
-    <div class="container">
-      Copyright &copy; Your Website 2019
+      </div>
     </div>
   </footer>
 
